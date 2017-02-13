@@ -1,3 +1,11 @@
+<?php
+include_once 'koneksi.php';
+	if (isset($_GET['delete_id'])){
+		$sql_query="DELETE FROM mahasiswa WHERE no=".$_GET['delete_id'];
+		mysql_query($sql_query);
+		header("Location:$_SERVER[PHP_SELF]");
+	}
+?>		
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -35,6 +43,19 @@
 				overflow:hidden;
 			}
 		</style>
+		<script type="text/javascript">
+			function edit_id(id){
+				if(confirm('Yakin Ingin di edit ?')){
+					window.location.href='simpan.php?edit_id='+id;
+				}
+			}
+			
+			function delete_id(id){
+				if(confirm('Yakin ingin di hapus ?')){
+					window.location.href='home.php?delete_id='+id;
+				}
+			}
+		</script>
 	</head>
 	<body>
 		<div class="Container">
@@ -67,6 +88,32 @@
 						<th>Alamat</th>
 						<th>Aksi</th>
 					</tr>
+					<?php
+						$sql_query = "SELECT * FROM mahasiswa";
+						$result_set = mysql_query($sql_query);
+						
+						if (mysql_num_rows($result_set) > 0){
+							while ($row = mysql_fetch_row($result_set)){
+					?>
+					<tr>
+						<td><?php echo $row[0]; ?></td>
+						<td><?php echo $row[1]; ?></td>
+						<td><?php echo $row[2]; ?></td>
+						<td><?php echo $row[3]; ?></td>
+						<td><a href="javascript:edit_id('<?php echo $row['0']; ?>')">Edit</a>
+							<a href="javascript:delete_id('<?php echo $row['0']; ?>')">Delete</a></td>
+					</tr>
+					<?php
+							}
+						}
+						else {
+					?>
+					<tr>
+						<td colspan="5">Data Tidak Ada</td>
+					</tr>
+					<?php
+						}
+					?>
 				</table>
 			</article>
 			<!-- End Bagian Article -->
