@@ -1,3 +1,36 @@
+<?php
+include_once 'koneksi.php';
+if(isset($_POST['btn-simpan']))
+{
+ $nama = $_POST['nama'];
+ $nim = $_POST['nim'];
+ $alamat = $_POST['alamat'];
+
+ $sql_query = "INSERT INTO mahasiswa(nama,nim,alamat) VALUES('$nama','$nim','$alamat')";
+
+ if(mysql_query($sql_query))
+ {
+  ?>
+  <script type="text/javascript">
+  alert('Data berhasil disimpan');
+  window.location.href='home.php';
+  </script>
+  <?php
+ }
+ else
+ {
+  ?>
+  <script type="text/javascript">
+  alert('Terjadi error saat simpan data');
+  </script>
+  <?php
+ }
+}
+if(isset($_POST['btn-batal']))
+{
+ header("Location: home.php");
+}
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
@@ -55,7 +88,7 @@
 			<!-- End Bagian SideNav -->
 			<!-- Start Bagian Article -->
 			<article>
-				<form action="" method="">
+				<form method="POST" action="tambah.php">
 					<table border="1" width="60%" align="center">
 						<tr>
 							<th><align ="center" colspan="2">Tambah data</th>
@@ -66,13 +99,14 @@
 						</tr>
 						<tr>
 							<td bgcolor="#00FFFF"><strong>NIM</strong></td>
-						  <td><input type=" text" name="Nim" size="80"></td>
+						  <td><input type=" text" name="nim" size="80"></td>
 						</tr>
 						<tr>
 							<td bgcolor="#00FFFF"><strong>Alamat</strong></td>
 						  <td><input type=" text" name="alamat" size="80"></td>
 						</tr>
-							<td colspan="2" align="right"><input type="button" value="Tambah" /> <input type="button" value="Batal" /></td>
+						<tr>
+							<td colspan="2" align="right"><input name="btn-simpan" type="submit" value="Tambah" /> <input type="button" value="Batal" name="btn-batal"/></td>
 						</tr>
 					</table>
 				</form>
